@@ -1,19 +1,21 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8000/api";
+const api = axios.create({
+  baseURL: 'http://localhost:8000/api',
+});
 
-export const registerUser = async (data: {
+export const register = async (data: {
   name: string;
   email: string;
   password: string;
   password_confirmation: string;
 }) => {
-  const response = await axios.post(`${API_URL}/register`, data);
+  const response = await axios.post(`${api}/register`, data);
   return response.data;
 };
 
-export const loginUser = async (data: { email: string; password: string }) => {
-  const response = await axios.post(`${API_URL}/login`, data);
+export const login = async (data: { email: string; password: string }) => {
+  const response = await axios.post(`${api}/login`, data);
   return response.data;
 };
 
@@ -21,9 +23,11 @@ export const logoutUser = () => {
   localStorage.removeItem("token");
 };
 
+export const getToken = () => localStorage.getItem("token");
+
 export const logout = async () => {
   await axios.post(
-    `${API_URL}/logout`,
+    `${api}/logout`,
     {},
     {
       headers: {
@@ -32,8 +36,4 @@ export const logout = async () => {
     }
   );
   localStorage.removeItem("token");
-};
-
-export const getToken = () => {
-  return localStorage.getItem("token");
 };

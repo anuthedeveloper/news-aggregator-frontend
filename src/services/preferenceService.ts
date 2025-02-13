@@ -1,12 +1,6 @@
 import axios from "axios";
 import { getToken } from "./authService";
-
-const api = axios.create({
-  baseURL: "http://localhost:8000/api",
-  headers: {
-    Authorization: `Bearer ${getToken()}`,
-  },
-});
+import api from "./api";
 
 export const getPreferences = async () => {
   const response = await api.get("/preferences");

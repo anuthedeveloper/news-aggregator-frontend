@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { getToken } from '../services/authService';
+import api from '../services/api';
 
 interface Preferences {
   categories: string[];
@@ -27,11 +27,7 @@ const UserPreferences: React.FC = () => {
 
   const fetchPreferences = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/preferences', {
-        headers: {
-          Authorization: `Bearer ${getToken()}`,
-        },
-      });
+      const response = await axios.get(`${api}/preferences`);
       setPreferences(response.data || {});
     } catch (error) {
       console.error('Error fetching preferences:', error);
@@ -40,11 +36,7 @@ const UserPreferences: React.FC = () => {
 
   const savePreferences = async () => {
     try {
-      await axios.post('http://localhost:8000/api/preferences', preferences, {
-        headers: {
-          Authorization: `Bearer ${getToken()}`,
-        },
-      });
+      await axios.post(`${api}/preferences`, preferences);
       alert('Preferences saved successfully!');
     } catch (error) {
       console.error('Error saving preferences:', error);

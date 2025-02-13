@@ -8,6 +8,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import UserPreferences from "./pages/UserPreferences";
 import Profile from "./pages/Profile";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 const App: React.FC = () => {
   return (
@@ -35,6 +36,7 @@ const App: React.FC = () => {
           }
         />
       </Routes>
+      <Footer/>
     </Router>
   );
 };
