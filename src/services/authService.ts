@@ -1,39 +1,54 @@
 import axios from "axios";
+import { API_URL } from "../routes/constants";
 
-const api = axios.create({
-  baseURL: 'http://localhost:8000/api',
-});
+const api = axios.create({ baseURL: API_URL });
 
-export const register = async (data: {
+export const registerUser = async (data: {
   name: string;
   email: string;
   password: string;
   password_confirmation: string;
 }) => {
-  const response = await axios.post(`${api}/register`, data);
-  return response.data;
+  try {
+    const response = await api.post(`/register`, data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 };
 
-export const login = async (data: { email: string; password: string }) => {
-  const response = await axios.post(`${api}/login`, data);
-  return response.data;
+export const loginUser = async (data: { email: string; password: string }) => {
+  try {
+    const response = await api.post(`/login`, data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 };
 
-export const logoutUser = () => {
+const AuthorizationHeader = {
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+  },
+};
+
+export const logoutUser = async () => {
+  try {
+    await api.post(`/logout`, {}, AuthorizationHeader);
+  } catch (error) {
+    console.error("Logout failed:", error);
+  }
+
   localStorage.removeItem("token");
+};
+
+export const getUser = async (token: string) => {
+  const response = await api.get("/user", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
 };
 
 export const getToken = () => localStorage.getItem("token");
-
-export const logout = async () => {
-  await axios.post(
-    `${api}/logout`,
-    {},
-    {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    }
-  );
-  localStorage.removeItem("token");
-};

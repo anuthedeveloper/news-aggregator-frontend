@@ -1,8 +1,9 @@
-import axios from 'axios';
-import { getToken } from './authService';
+import axios from "axios";
+import { getToken } from "./authService";
+import { API_URL } from "../routes/constants";
 
 const api = axios.create({
-  baseURL: "http://localhost:8000/api",
+  baseURL: API_URL,
   headers: {
     Authorization: `Bearer ${getToken()}`,
   },
