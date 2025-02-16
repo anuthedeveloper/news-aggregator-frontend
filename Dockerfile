@@ -5,7 +5,7 @@ FROM node:18-alpine
 WORKDIR /app
 
 # Copy package.json and package-lock.json
-COPY package.json package-lock.json ./
+COPY package.json package*.json ./
 
 # Install dependencies using npm
 RUN npm install
@@ -17,10 +17,10 @@ COPY . .
 RUN npm run build
 
 # Install serve to serve the production build
-RUN npm install -g serve
+# RUN npm install -g serve
 
 # Expose port
 EXPOSE 3000
 
 # Start the app
-CMD ["serve", "-s", "build", "-l", "3000"]
+CMD ["npm", "start"]

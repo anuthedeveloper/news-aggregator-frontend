@@ -5,7 +5,7 @@ cd frontend
 docker-compose up -d
 ```
 
-This buid and start the container
+This build and start the container
 
 ```
 docker-compose up --build
@@ -24,3 +24,5 @@ To check the container running
 ```
 docker ps
 ```
+
+Access the frontend via localhost:3000
