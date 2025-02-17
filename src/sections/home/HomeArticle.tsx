@@ -4,8 +4,10 @@ import api from "../../services/api";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import { formatDateToString } from "../../utils/functions";
 import { CATEGORIES, SOURCES } from "../../utils/data";
+import { useAuth } from "../../context/AuthProvider";
 
 const HomeArticle = () => {
+  const token = useAuth();
   const [articles, setArticles] = useState<Article[]>([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -66,14 +68,15 @@ const HomeArticle = () => {
     fetchArticles();
   }, [page, fetchArticles]);
 
-  // Fetch on Filter/Search Change
+  // Fetch on Filter/Search Change (but don't reset page)
   useEffect(() => {
     setPage(1); // Reset to first page on filter or search change
-    fetchArticles();
-  }, [debouncedFilter, debouncedQuery, fetchArticles]);
+  }, [debouncedFilter, debouncedQuery]);
 
   // Fetch User Preferences
   useEffect(() => {
+    if (!token) return; // Only fetch preferences if the user is logged in
+
     const fetchPreferences = async () => {
       try {
         const response = await api.get("/preferences");
@@ -89,7 +92,7 @@ const HomeArticle = () => {
     };
 
     fetchPreferences();
-  }, []);
+  }, [token]);
 
   // Handle Pagination
   const handleNextPage = () => {

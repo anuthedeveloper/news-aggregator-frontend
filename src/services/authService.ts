@@ -26,9 +26,11 @@ export const loginUser = async (data: { email: string; password: string }) => {
   }
 };
 
+export const getToken = () => localStorage.getItem("token");
+
 const AuthorizationHeader = {
   headers: {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
+    Authorization: `Bearer ${getToken}`,
   },
 };
 
@@ -50,5 +52,3 @@ export const getUser = async (token: string) => {
   });
   return response.data;
 };
-
-export const getToken = () => localStorage.getItem("token");
