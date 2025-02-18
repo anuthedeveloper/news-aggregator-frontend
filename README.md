@@ -26,3 +26,7 @@ docker ps
 ```
 
 Access the frontend via localhost:3000
+Public view:
+```
+docker pull anuthedeveloper/react-app:v1
+```
